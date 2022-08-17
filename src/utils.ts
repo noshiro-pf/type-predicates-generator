@@ -1,12 +1,12 @@
 export type Result<S, T> = ResultOk<S> | ResultNg<T>
-export type ResultOk<T> = {
+export type ResultOk<T> = Readonly<{
   __type: "ok"
   ok: T
-}
-export type ResultNg<T> = {
+}>
+export type ResultNg<T> = Readonly<{
   __type: "ng"
   ng: T
-}
+}>
 
 export function isOk<T, E>(result: Result<T, E>): result is ResultOk<T> {
   return result.__type === "ok"
@@ -33,7 +33,7 @@ export function ng<T>(value: T): ResultNg<T> {
 type IsMatch<T> = (target: T) => boolean
 type SwitchResolve<Arg, R> = (arg: Arg) => R
 
-type SwitchResult<T, R> = {
+type SwitchResult<T, R> = Readonly<{
   case: <
     CaseR,
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -45,7 +45,7 @@ type SwitchResult<T, R> = {
   ) => SwitchResult<T, R | CaseR>
   default: <Default>(resolve: SwitchResolve<T, Default>) => R | Default
   resolved?: R
-}
+}>
 
 const toResult = <T, R, ExtractT = T>(
   target: T,
